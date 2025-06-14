@@ -1,0 +1,83 @@
+button {
+  background-color: #007bff;
+  border: none;
+  padding: 8px 15px;
+  color: rgba(0, 0, 0, 0.534);
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+/* .user-table-wrapper {
+  max-height: 400px; Высота по твоему вкусу
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  margin-top: 10px;
+}
+.user-table {
+  width: 100%;
+  border-collapse: collapse;
+} */
+
+/* 
+.kontragent {
+  padding: 20px;
+} */
+
+.user-table-wrapper {
+  max-height: 450px;
+  padding: 0px 10px;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.user-table-wrapper table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.user-table-wrapper th,
+.user-table-wrapper td {
+  padding: 10px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+@media screen and (max-width: 768px) {
+  .user-table-wrapper table,
+  .user-table-wrapper thead,
+  .user-table-wrapper tbody,
+  .user-table-wrapper th,
+  .user-table-wrapper td,
+  .user-table-wrapper tr {
+    display: block;
+    width: 100%;
+  }
+
+  .user-table-wrapper thead tr {
+    display: none;
+  }
+
+  .user-table-wrapper td {
+    position: relative;
+    padding-left: 50%;
+    text-align: right;
+    border: none;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .user-table-wrapper td::before {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 45%;
+    padding-right: 10px;
+    white-space: nowrap;
+    content: attr(data-label);
+    text-align: left;
+    font-weight: bold;
+  }
+}

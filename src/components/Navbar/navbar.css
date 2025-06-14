@@ -1,0 +1,24 @@
+.logo img{
+    width: 90px;
+    height: 90px;
+    padding-top: 5px;
+}
+.Links ul{
+  display: flex;
+  gap: 20px;
+  color: rgba(255, 255, 255, 0.507);
+}
+.Links ul li{
+  list-style: none;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.Links ul li:hover{
+    color: rgb(0, 195, 255);
+ border-bottom: 1px solid rgb(0, 195, 255);
+}
+.logo{
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+}
