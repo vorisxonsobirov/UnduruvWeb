@@ -16,6 +16,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     fetch("https://jsonplaceholder.typicode.com/users")
+
     // fetch("https://dummyjson.com/docs/users")
       .then((res) => res.json())
       .then((data) => {
@@ -173,3 +174,110 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+
+
+
+
+
+
+// import React, { useEffect, useState } from "react";
+
+// const DebtorsTable = () => {
+//   const [debtors, setDebtors] = useState([]);
+//   const [loading, setLoading] = useState(true);
+
+//   useEffect(() => {
+//     const username = "api";
+//     const password = "123";
+//     const authHeader = "Basic " + btoa(username + ":" + password);
+//     fetch("/demo_nasiya/hs/GPScontrol/apigps/getdebtors?page=1&count=500&branch_id=1", {
+//       headers: {
+//         Authorization: "Basic " + btoa("api:123"),
+//       }
+//     })
+
+//       .then((res) => {
+//         if (!res.ok) throw new Error("Ошибка загрузки");
+//         return res.json();
+//       })
+//       .then((data) => {
+//         const mapped = data.response.debtors.map((item, index) => {
+//           const c = item.client;
+//           const contract = item.contracts[0] || {};
+//           return {
+//             id: contract.contract_id || index,
+//             name: `${c.last_name} ${c.first_name}`,
+//             passport: `${c.passport_series}${c.passport_number}`,
+//             passportDate: c.passport_date || "-",
+//             bornDate: c.born_date || "-",
+//             debt: contract.debt || 0,
+//             product: contract.products || "-",
+//           };
+//         });
+//         setDebtors(mapped);
+//       })
+//       .catch((err) => {
+//         console.error("Ошибка при загрузке данных:", err);
+//         alert("Не удалось загрузить должников.");
+//       })
+//       .finally(() => setLoading(false));
+//   }, []);
+
+//   return (
+//     <div style={{ padding: "20px" }}>
+//       <h2>Список должников</h2>
+//       {loading ? (
+//         <p>Загрузка...</p>
+//       ) : (
+//         <table style={{ width: "100%", borderCollapse: "collapse" }}>
+//           <thead>
+//             <tr>
+//               <th style={thStyle}>#</th>
+//               <th style={thStyle}>ФИО</th>
+//               <th style={thStyle}>Паспорт</th>
+//               <th style={thStyle}>Дата паспорта</th>
+//               <th style={thStyle}>Дата рождения</th>
+//               <th style={thStyle}>Долг</th>
+//               <th style={thStyle}>Продукт</th>
+//             </tr>
+//           </thead>
+//           <tbody>
+//             {debtors.map((debtor, index) => (
+//               <tr key={debtor.id} style={index % 2 === 0 ? rowEven : rowOdd}>
+//                 <td style={tdStyle}>{index + 1}</td>
+//                 <td style={tdStyle}>{debtor.name}</td>
+//                 <td style={tdStyle}>{debtor.passport}</td>
+//                 <td style={tdStyle}>{debtor.passportDate}</td>
+//                 <td style={tdStyle}>{debtor.bornDate}</td>
+//                 <td style={tdStyle}>{debtor.debt.toLocaleString()} сум</td>
+//                 <td style={tdStyle}>{debtor.product}</td>
+//               </tr>
+//             ))}
+//           </tbody>
+//         </table>
+//       )}
+//     </div>
+//   );
+// };
+
+// const thStyle = {
+//   border: "1px solid #ccc",
+//   padding: "10px",
+//   background: "#f0f0f0",
+//   textAlign: "left",
+// };
+
+// const tdStyle = {
+//   border: "1px solid #ddd",
+//   padding: "8px",
+// };
+
+// const rowEven = {
+//   backgroundColor: "#ffffff",
+// };
+
+// const rowOdd = {
+//   backgroundColor: "#f9f9f9",
+// };
+
+// export default DebtorsTable;

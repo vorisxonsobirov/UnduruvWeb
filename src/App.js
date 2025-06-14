@@ -19,9 +19,10 @@ function App() {
 
   return (
     <div className="App">
-      <Navbar toggleBar={toggleBar} />
+            <Navbar/> 
       <div className="main-layout">
-        <Bar isBarOpen={isBarOpen} />
+        <Bar/>
+  
         <div className="page-content">
           <Routes>
             <Route path="/" element={<Profile />} />
