@@ -1,6 +1,7 @@
 {
-  "name": "night-work",
+  "name": "unduruv-panel",
   "version": "0.1.0",
+  "proxy": "http://nasiya.mxsoft.uz",
   "private": true,
   "dependencies": {
     "@testing-library/dom": "^10.4.0",
@@ -13,7 +14,6 @@
     "react-leaflet": "^5.0.0",
     "react-router-dom": "^7.6.0",
     "react-scripts": "5.0.1",
-    "proxy": "http://nasiya.mxsoft.uz",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
