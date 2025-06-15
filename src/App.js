@@ -30,7 +30,7 @@ function App() {
             <Route path="/Xabarlar" element={<Xabarlar />} />
             <Route path="/Tulovlar" element={<Tulovlar />} />
             <Route path="/Kontragentlar" element={<Kontragentlar />} />
-            <Route path="/Map" element={<Map />} />
+            {/* <Route path="/Map" element={<Map />} /> */}
           </Routes>
         </div>
       </div>
