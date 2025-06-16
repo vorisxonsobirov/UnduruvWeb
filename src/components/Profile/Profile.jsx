@@ -178,123 +178,111 @@
 
 
 // Profile.jsx
-import React, { useEffect, useState } from "react";
+
+import React, { useState, useEffect } from "react";
 import "./profile.css";
 
 const Profile = () => {
   const [debtors, setDebtors] = useState([]);
+  const [selectedDebtor, setSelectedDebtor] = useState(null);
   const [error, setError] = useState(null);
-  const [search, setSearch] = useState("");
-  const [sortOrder, setSortOrder] = useState("newest");
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5;
 
-useEffect(() => {
-  const fetchDebtors = async () => {
-    try {
-      const username = "api";
-      const password = "123";
-      const encodedCredentials = btoa(`${username}:${password}`);
+  useEffect(() => {
+    const fetchDebtors = async () => {
+      try {
+        const username = "api";
+        const password = "123";
+        const encodedCredentials = btoa(`${username}:${password}`);
 
-      const response = await fetch(
-        "/demo_nasiya/hs/GPScontrol/apigps/getdebtors?page=1&count=500&branch_id=1",
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Basic ${encodedCredentials}`,
-          },
-          mode: "cors",
+        const response = await fetch(
+          "/demo_nasiya/hs/GPScontrol/apigps/getdebtors?page=1&count=500&branch_id=1",
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Basic ${encodedCredentials}`,
+            },
+            mode: "cors",
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error(`Ошибка: ${response.status}`);
         }
-      );
 
-      if (!response.ok) {
-        throw new Error(`Ошибка: ${response.status}`);
+        const data = await response.json();
+       setDebtors(data.response.Clients); // <-- теперь правильно!
+      } catch (error) {
+        console.error("Ошибка при загрузке данных:", error);
+        setError(error.message);
       }
+    };
 
-      const data = await response.json();
-      setDebtors(data.response.debtors);
-    } catch (error) {
-      console.error("Ошибка при загрузке данных:", error);
-      setError(error.message);
-    }
+    fetchDebtors();
+  }, []);
+
+
+  const handleRowClick = (debtor) => {
+    setSelectedDebtor(debtor);
   };
 
-  fetchDebtors();
-}, []);
-
-
-  const filtered = debtors.filter((debtor) => {
-    const fullName = `${debtor.client.first_name} ${debtor.client.last_name} ${debtor.client.middle_name}`.toLowerCase();
-    return fullName.includes(search.toLowerCase());
-  });
-
-  const sorted = [...filtered].sort((a, b) => {
-    const dateA = new Date(a.client.passport_date);
-    const dateB = new Date(b.client.passport_date);
-    return sortOrder === "newest" ? dateB - dateA : dateA - dateB;
-  });
-
-  const totalPages = Math.ceil(sorted.length / itemsPerPage);
-  const currentItems = sorted.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+  const closeModal = () => {
+    setSelectedDebtor(null);
+  };
 
   return (
     <div className="profile-container">
-      <h1>Список должников</h1>
-      {error && <p className="error">Ошибка: {error}</p>}
+      <h2 className="title">Список должников</h2>
 
-      <div className="controls">
-        <input
-          type="text"
-          placeholder="Поиск по имени..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
+      {error && <p className="error">{error}</p>}
 
-        <select onChange={(e) => setSortOrder(e.target.value)} value={sortOrder}>
-          <option value="newest">Newest</option>
-          <option value="oldest">Oldest</option>
-        </select>
-      </div>
-
-      <table className="styled-table">
-        <thead>
-          <tr>
-            <th>Имя</th>
-            <th>Фамилия</th>
-            <th>Отчество</th>
-            <th>PINFL</th>
-            <th>Сумма долга</th>
-            <th>Серия паспорта</th>
-          </tr>
-        </thead>
-        <tbody>
-          {currentItems.map((debtor, index) => (
-            <tr key={index}>
-              <td>{debtor.client.first_name}</td>
-              <td>{debtor.client.last_name}</td>
-              <td>{debtor.client.middle_name}</td>
-              <td>{debtor.client.pinfl}</td>
-              <td>{debtor.contracts[0]?.debt}</td>
-              <td>{debtor.client.passport_series}</td>
+      <div className="table-wrapper">
+        <table className="debtors-table">
+          <thead>
+            <tr>
+              <th>Имя</th>
+              <th>Фамилия</th>
+              <th>PINFL</th>
+              <th>Сумма долга</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-
-      <div className="pagination">
-        <button onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))} disabled={currentPage === 1}>
-          Назад
-        </button>
-        <span>
-          Страница {currentPage} из {totalPages}
-        </span>
-        <button
-          onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
-          disabled={currentPage === totalPages}
-        >
-          Вперёд
-        </button>
+          </thead>
+          <tbody>
+            {debtors.map((debtor, index) => (
+              <tr key={index} onClick={() => handleRowClick(debtor)}>
+                <td>{debtor.first_name}</td>
+                <td>{debtor.last_name}</td>
+                <td>{debtor.pinfl}</td>
+                <td>{debtor.contracts?.[0]?.debt}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
+
+      {selectedDebtor && (
+        <div className="modal-overlay" onClick={closeModal}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <h3>
+              {selectedDebtor.first_name} {selectedDebtor.last_name}
+            </h3>
+            <p><strong>PINFL:</strong> {selectedDebtor.pinfl}</p>
+            <p><strong>Паспорт:</strong> {selectedDebtor.passport_seria} {selectedDebtor.passport_number}</p>
+            <p><strong>Телефон:</strong> {selectedDebtor.phone}</p>
+            <h4>Контракты:</h4>
+            {selectedDebtor.contracts.map((contract, i) => (
+              <div key={i} className="contract-block">
+                <p><strong>Продукт:</strong> {contract.products}</p>
+                <p><strong>Дата:</strong> {contract.date}</p>
+                <p><strong>Тариф:</strong> {contract.tariff}</p>
+                <p><strong>Долг:</strong> {contract.debt}</p>
+                <p><strong>Месячный платёж:</strong> {contract.mounthly_payment}</p>
+                <p><strong>Сумма контракта:</strong> {contract.contract_summary}</p>
+                <p><strong>Агент:</strong> {contract.agent}</p>
+              </div>
+            ))}
+            <button onClick={closeModal} className="close-button">Закрыть</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
