@@ -181,6 +181,8 @@
 
 import React, { useState, useEffect } from "react";
 import "./profile.css";
+import ClientDetails from "../Kontragent/Kontragent";
+
 
 const Profile = () => {
   const [debtors, setDebtors] = useState([]);
@@ -210,7 +212,7 @@ const Profile = () => {
         }
 
         const data = await response.json();
-       setDebtors(data.response.Clients); // <-- теперь правильно!
+        setDebtors(data.response.Clients); // <-- теперь правильно!
       } catch (error) {
         console.error("Ошибка при загрузке данных:", error);
         setError(error.message);
@@ -251,7 +253,7 @@ const Profile = () => {
                 <td>{debtor.first_name}</td>
                 <td>{debtor.last_name}</td>
                 <td>{debtor.pinfl}</td>
-                <td>{debtor.contracts?.[0]?.debt}</td>
+                <td>{debtor.contracts?.[0]?.debt?.toLocaleString("ru-RU", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
               </tr>
             ))}
           </tbody>
@@ -268,17 +270,22 @@ const Profile = () => {
             <p><strong>Паспорт:</strong> {selectedDebtor.passport_seria} {selectedDebtor.passport_number}</p>
             <p><strong>Телефон:</strong> {selectedDebtor.phone}</p>
             <h4>Контракты:</h4>
-            {selectedDebtor.contracts.map((contract, i) => (
+            {/* {selectedDebtor.contracts.map((contract, i) => (
               <div key={i} className="contract-block">
                 <p><strong>Продукт:</strong> {contract.products}</p>
                 <p><strong>Дата:</strong> {contract.date}</p>
                 <p><strong>Тариф:</strong> {contract.tariff}</p>
-                <p><strong>Долг:</strong> {contract.debt}</p>
-                <p><strong>Месячный платёж:</strong> {contract.mounthly_payment}</p>
-                <p><strong>Сумма контракта:</strong> {contract.contract_summary}</p>
+                <p><strong>Долг:</strong> {contract.debt.toLocaleString("ru-RU", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
+                <p><strong>Месячный платёж:</strong> {contract.mounthly_payment.toLocaleString("ru-RU", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
+                <p><strong>Сумма контракта:</strong> {contract.contract_summary.toLocaleString("ru-RU", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
+
                 <p><strong>Агент:</strong> {contract.agent}</p>
               </div>
-            ))}
+            ))} */}
+            {selectedDebtor && (
+              <ClientDetails debtor={selectedDebtor} onClose={closeModal} />
+            )}
+
             <button onClick={closeModal} className="close-button">Закрыть</button>
           </div>
         </div>

@@ -1,83 +1,59 @@
-button {
-  background-color: #007bff;
-  border: none;
-  padding: 8px 15px;
-  color: rgba(0, 0, 0, 0.534);
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #0056b3;
-}
-/* .user-table-wrapper {
-  max-height: 400px; Высота по твоему вкусу
-  overflow-y: auto;
-  border: 1px solid #ccc;
-  margin-top: 10px;
-}
-.user-table {
+.client-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
-  border-collapse: collapse;
-} */
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
 
-/* 
-.kontragent {
-  padding: 20px;
-} */
-
-.user-table-wrapper {
-  max-height: 450px;
-  padding: 0px 10px;
+.client-modal {
+  background: white;
+  padding: 25px;
+  border-radius: 16px;
+  max-width: 600px;
+  width: 95%;
+  max-height: 90vh;
   overflow-y: auto;
-  border: 1px solid #ccc;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  position: relative;
+}
+
+.client-modal h2 {
+  margin-top: 0;
+  font-size: 24px;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 10px;
+}
+
+.client-contract {
+  background-color: #f9f9f9;
+  padding: 12px;
+  margin: 12px 0;
   border-radius: 8px;
+  border-left: 4px solid #007bff;
 }
 
-.user-table-wrapper table {
-  width: 100%;
-  border-collapse: collapse;
+.client-contract p {
+  margin: 6px 0;
 }
 
-.user-table-wrapper th,
-.user-table-wrapper td {
-  padding: 10px;
-  text-align: left;
-  border: 1px solid #ddd;
+.client-close-btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 12px 18px;
+  font-size: 16px;
+  border-radius: 10px;
+  margin-top: 20px;
+  cursor: pointer;
+  transition: 0.2s;
 }
 
-@media screen and (max-width: 768px) {
-  .user-table-wrapper table,
-  .user-table-wrapper thead,
-  .user-table-wrapper tbody,
-  .user-table-wrapper th,
-  .user-table-wrapper td,
-  .user-table-wrapper tr {
-    display: block;
-    width: 100%;
-  }
-
-  .user-table-wrapper thead tr {
-    display: none;
-  }
-
-  .user-table-wrapper td {
-    position: relative;
-    padding-left: 50%;
-    text-align: right;
-    border: none;
-    border-bottom: 1px solid #ddd;
-  }
-
-  .user-table-wrapper td::before {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    width: 45%;
-    padding-right: 10px;
-    white-space: nowrap;
-    content: attr(data-label);
-    text-align: left;
-    font-weight: bold;
-  }
+.client-close-btn:hover {
+  background-color: #0056b3;
 }
