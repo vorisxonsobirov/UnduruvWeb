@@ -178,16 +178,18 @@
 
 
 // Profile.jsx
-
 import React, { useState, useEffect } from "react";
 import "./profile.css";
 import ClientDetails from "../Kontragent/Kontragent";
-
 
 const Profile = () => {
   const [debtors, setDebtors] = useState([]);
   const [selectedDebtor, setSelectedDebtor] = useState(null);
   const [error, setError] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const itemsPerPage = 10;
 
   useEffect(() => {
     const fetchDebtors = async () => {
@@ -208,20 +210,19 @@ const Profile = () => {
         );
 
         if (!response.ok) {
-          throw new Error(`Ошибка: ${response.status}`);
+          throw new Error(`Error: ${response.status}`);
         }
 
         const data = await response.json();
-        setDebtors(data.response.Clients); // <-- теперь правильно!
+        setDebtors(data.response.Clients);
       } catch (error) {
-        console.error("Ошибка при загрузке данных:", error);
+        console.error("Fetch error:", error);
         setError(error.message);
       }
     };
 
     fetchDebtors();
   }, []);
-
 
   const handleRowClick = (debtor) => {
     setSelectedDebtor(debtor);
@@ -231,9 +232,35 @@ const Profile = () => {
     setSelectedDebtor(null);
   };
 
+  const filteredDebtors = debtors.filter((debtor) =>
+    `${debtor.first_name} ${debtor.last_name} ${debtor.pinfl}`
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase())
+  );
+
+  const totalPages = Math.ceil(filteredDebtors.length / itemsPerPage);
+  const paginatedDebtors = filteredDebtors.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
   return (
     <div className="profile-container">
-      <h2 className="title">Список должников</h2>
+      <div className="Display-flex">
+         <h2 className="title">Debtors List</h2>
+
+      <input
+        type="text"
+        placeholder="Search by name or PINFL..."
+        className="search-input"
+        value={searchTerm}
+        onChange={(e) => {
+          setSearchTerm(e.target.value);
+          setCurrentPage(1); // reset to first page on search
+        }}
+      />
+      </div>
+     
 
       {error && <p className="error">{error}</p>}
 
@@ -241,23 +268,51 @@ const Profile = () => {
         <table className="debtors-table">
           <thead>
             <tr>
-              <th>Имя</th>
-              <th>Фамилия</th>
+              <th>First Name</th>
+              <th>Last Name</th>
               <th>PINFL</th>
-              <th>Сумма долга</th>
+              <th>Debt</th>
             </tr>
           </thead>
           <tbody>
-            {debtors.map((debtor, index) => (
+            {paginatedDebtors.map((debtor, index) => (
               <tr key={index} onClick={() => handleRowClick(debtor)}>
                 <td>{debtor.first_name}</td>
                 <td>{debtor.last_name}</td>
                 <td>{debtor.pinfl}</td>
-                <td>{debtor.contracts?.[0]?.debt?.toLocaleString("ru-RU", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+                <td>
+                  {debtor.contracts?.[0]?.debt?.toLocaleString("ru-RU", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })}
+                </td>
               </tr>
             ))}
           </tbody>
         </table>
+      </div>
+
+      {/* Pagination */}
+      <div className="pagination">
+        <button
+          onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+          disabled={currentPage === 1}
+        >
+           Prev
+        </button>
+        <span>
+          Page {currentPage} of {totalPages}
+        </span>
+        <button
+          onClick={() =>
+            setCurrentPage((prev) =>
+              prev < totalPages ? prev + 1 : prev
+            )
+          }
+          disabled={currentPage === totalPages}
+        >
+          Next 
+        </button>
       </div>
 
       {selectedDebtor && (
@@ -267,26 +322,11 @@ const Profile = () => {
               {selectedDebtor.first_name} {selectedDebtor.last_name}
             </h3>
             <p><strong>PINFL:</strong> {selectedDebtor.pinfl}</p>
-            <p><strong>Паспорт:</strong> {selectedDebtor.passport_seria} {selectedDebtor.passport_number}</p>
-            <p><strong>Телефон:</strong> {selectedDebtor.phone}</p>
-            <h4>Контракты:</h4>
-            {/* {selectedDebtor.contracts.map((contract, i) => (
-              <div key={i} className="contract-block">
-                <p><strong>Продукт:</strong> {contract.products}</p>
-                <p><strong>Дата:</strong> {contract.date}</p>
-                <p><strong>Тариф:</strong> {contract.tariff}</p>
-                <p><strong>Долг:</strong> {contract.debt.toLocaleString("ru-RU", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
-                <p><strong>Месячный платёж:</strong> {contract.mounthly_payment.toLocaleString("ru-RU", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
-                <p><strong>Сумма контракта:</strong> {contract.contract_summary.toLocaleString("ru-RU", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
-
-                <p><strong>Агент:</strong> {contract.agent}</p>
-              </div>
-            ))} */}
-            {selectedDebtor && (
-              <ClientDetails debtor={selectedDebtor} onClose={closeModal} />
-            )}
-
-            <button onClick={closeModal} className="close-button">Закрыть</button>
+            <p><strong>Passport:</strong> {selectedDebtor.passport_seria} {selectedDebtor.passport_number}</p>
+            <p><strong>Phone:</strong> {selectedDebtor.phone}</p>
+            <h4>Contracts:</h4>
+            <ClientDetails debtor={selectedDebtor} onClose={closeModal} />
+            <button onClick={closeModal} className="close-button">Close</button>
           </div>
         </div>
       )}
