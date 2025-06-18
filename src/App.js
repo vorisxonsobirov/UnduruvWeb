@@ -3,36 +3,47 @@ import { Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar/Navbar';
 import Bar from './components/Bar/Bar';
 import Profile from './components/Profile/Profile';
-import Xabarlar from './components/Xabarlar/Xabarlar';
-import Tulovlar from './components/Tulovlar/Tulovlar';
-import Kontragentlar from './components/Kontragent/Kontragent';
-import KursValyut from './components/KursValyut/KursValyut';
 import Map from './components/Map/Map';
-import { useState } from 'react';
 import CoordinatesScreen from './components/Map/CoordinatesScreen';
+import AuthPage from './components/Auth/AuthPage';
+import { useState, useEffect } from 'react';
 
 function App() {
-  const [isBarOpen, setIsBarOpen] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  const toggleBar = () => {
-    setIsBarOpen(!isBarOpen);
+  useEffect(() => {
+    // Проверка: если логин и пароль уже сохранены — вход разрешён
+    const storedEmail = localStorage.getItem('email');
+    const storedPassword = localStorage.getItem('password');
+    if (storedEmail && storedPassword) {
+      setIsAuthenticated(true);
+    }
+  }, []);
+
+  const handleAuthSuccess = (email, password) => {
+    localStorage.setItem('email', email);
+    localStorage.setItem('password', password);
+    setIsAuthenticated(true);
   };
+
+  const handleLogout = () => {
+    setIsAuthenticated(false); // Просто сбрасываем состояние авторизации
+  };
+
+  if (!isAuthenticated) {
+    return <AuthPage onAuthSuccess={handleAuthSuccess} />;
+  }
 
   return (
     <div className="App">
-            <Navbar/> 
+      <Navbar onLogout={handleLogout} />
       <div className="main-layout">
-        <Bar/>
-  
+        <Bar />
         <div className="page-content">
           <Routes>
             <Route path="/" element={<Profile />} />
-            {/* <Route path="/KursValyut" element={<KursValyut />} /> */}
-            {/* <Route path="/Xabarlar" element={<Xabarlar />} /> */}
-            {/* <Route path="/Tulovlar" element={<Tulovlar />} /> */}
-            {/* <Route path="/Kontragentlar" element={<Kontragentlar />} /> */}
             <Route path="/Map" element={<Map />} />
-            <Route path="/Coordinates" element={<CoordinatesScreen/>} />
+            <Route path="/Coordinates" element={<CoordinatesScreen />} />
           </Routes>
         </div>
       </div>

@@ -1,16 +1,22 @@
-import React from 'react'
-import "../../App.css"
-import "./navbar.css"
+import React from 'react';
+import "../../App.css";
+import "./navbar.css";
+import { useNavigate } from 'react-router-dom';
 
+const Navbar = ({ onLogout }) => {
+  const navigate = useNavigate();
 
-const Navbar = () => {
+  const handleLogout = () => {
+    onLogout(); // Вызываем функцию logout из App.jsx
+    navigate('/'); // Перенаправляем на главную страницу
+  };
+
   return (
-        <div className="Navbar">
+    <div className="Navbar">
+      <h1>Mxsoft</h1>
+      <button className="logout-btn" onClick={handleLogout}>Выйти</button>
+    </div>
+  );
+};
 
-        <h1>Mxsoft</h1>
-       
-       </div>
-  )
-}
-
-export default Navbar
+export default Navbar;
