@@ -182,7 +182,7 @@ function MapViewer() {
         >
           <TileLayer attribution='© OpenStreetMap' url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
           <Marker position={[location.latitude, location.longitude]} icon={defaultIcon}>
-            <Popup>Ты здесь</Popup>
+            <Popup>you here</Popup>
           </Marker>
           {logTable.map((p, i) => (
             <Marker key={i} position={[p.latitude, p.longitude]} icon={p.isManual ? manualIcon : defaultIcon}>
@@ -194,12 +194,12 @@ function MapViewer() {
           )}
         </MapContainer>
       ) : (
-        <p>Определяем местоположение...</p>
+        <p>We determine the location...</p>
       )}
       <div className="button-container">
-        <button className="button" onClick={addManualMarker}>Поставить метку</button>
-        <button className="button button-history" onClick={viewCoordinates}>Посмотреть координаты</button>
-        <button className="button button-clear" onClick={clearLogTable}>Очистить координаты</button>
+        <button className="button" onClick={addManualMarker}>Put a mark</button>
+        <button className="button button-history" onClick={viewCoordinates}>Show coordinates</button>
+        <button className="button button-clear" onClick={clearLogTable}>Cleare coordinates</button>
       </div>
     </div>
   );

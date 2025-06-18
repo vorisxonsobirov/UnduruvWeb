@@ -26,11 +26,11 @@ function CoordinatesScreen() {
   return (
     <div className="coordinates-container">
       <div className="button-container">
-        <button className="button" onClick={(e) => { e.preventDefault(); navigate('/Map'); }}>Назад</button>
+        <button className="button" onClick={(e) => { e.preventDefault(); navigate('/Map'); }}>Back</button>
       </div>
-      <h1 className="header">Лог точек:</h1>
+      <h1 className="header">Log points :</h1>
       {logTable.length === 0 ? (
-        <p className="log-text">Нет записанных точек</p>
+        <p className="log-text">No points recorded</p>
       ) : (
         <>
           {logTable.map((point, index) => (
@@ -41,7 +41,7 @@ function CoordinatesScreen() {
               {`${point.isManual ? 'Моя метка' : 'Точка'} ${index + 1}: ${point.latitude.toFixed(6)}, ${point.longitude.toFixed(6)} (${new Date(point.timestamp).toLocaleTimeString()}) — ${distances[index].toFixed(1)} м`}
             </p>
           ))}
-          <p className="total-distance">Общее расстояние: {totalDistance.toFixed(1)} м</p>
+          <p className="total-distance">Total distance: {totalDistance.toFixed(1)} м</p>
         </>
       )}
     </div>

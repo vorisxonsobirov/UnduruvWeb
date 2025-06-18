@@ -14,7 +14,7 @@ const Navbar = ({ onLogout }) => {
   return (
     <div className="Navbar">
       <h1>Mxsoft</h1>
-      <button className="logout-btn" onClick={handleLogout}>Выйти</button>
+      <button className="logout-btn" onClick={handleLogout}>Log out</button>
     </div>
   );
 };

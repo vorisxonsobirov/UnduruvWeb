@@ -13,22 +13,22 @@ const ClientDetails = ({ debtor, onClose }) => {
           {debtor.first_name} {debtor.last_name}
         </h2>
         <p><strong>PINFL:</strong> {debtor.pinfl}</p>
-        <p><strong>Паспорт:</strong> {debtor.passport_seria} {debtor.passport_number}</p>
-        <p><strong>Телефон:</strong> {debtor.phone}</p>
-        <p><strong>Адрес:</strong> {debtor.addres}</p>
-        <h3>Контракты:</h3>
+        <p><strong>Pasport:</strong> {debtor.passport_seria} {debtor.passport_number}</p>
+        <p><strong>Phone:</strong> {debtor.phone}</p>
+        <p><strong>Adress:</strong> {debtor.addres}</p>
+        <h3>Contracts:</h3>
         {debtor.contracts.map((contract, i) => (
           <div className="client-contract" key={i}>
-            <p><strong>Продукт:</strong> {contract.products}</p>
-            <p><strong>Дата:</strong> {contract.date}</p>
-            <p><strong>Тариф:</strong> {contract.tariff}</p>
-            <p><strong>Долг:</strong> {contract.debt.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
-            <p><strong>Сумма контракта:</strong> {contract.contract_summary.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
-            <p><strong>Месячный платёж:</strong> {contract.mounthly_payment.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
-            <p><strong>Агент:</strong> {contract.agent}</p>
+            <p><strong>Product:</strong> {contract.products}</p>
+            <p><strong>Date:</strong> {contract.date}</p>
+            <p><strong>Rate:</strong> {contract.tariff}</p>
+            <p><strong>Duty:</strong> {contract.debt.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
+            <p><strong>Contract amount:</strong> {contract.contract_summary.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
+            <p><strong>Monthly payment:</strong> {contract.mounthly_payment.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
+            <p><strong>Agent:</strong> {contract.agent}</p>
           </div>
         ))}
-        <button className="client-close-btn" onClick={onClose}>Закрыть</button>
+        <button className="client-close-btn" onClick={onClose}>Close</button>
       </div>
     </div>
   );
