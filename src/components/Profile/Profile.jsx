@@ -200,6 +200,7 @@ const Profile = () => {
 
         const response = await fetch(
           "/demo_nasiya/hs/GPScontrol/apigps/getdebtors?page=1&count=500&branch_id=1",
+          // "http://nasiya.mxsoft.uz/demo_nasiya/hs/GPScontrol/apigps/getdebtors?page=1&count=500&branch_id=1",
           {
             method: "GET",
             headers: {

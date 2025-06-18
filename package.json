@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "proxy": "http://nasiya.mxsoft.uz",
   "private": true,
+  
   "dependencies": {
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
@@ -21,6 +22,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
+    "start": "node Proxy.js",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
