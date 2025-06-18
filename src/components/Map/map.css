@@ -1,34 +1,93 @@
-.map-wrapper {
-  padding: 20px;
-  text-align: center;
-  max-width: 600px;
-  margin: 0 auto;
+#root {
+  height: 100%;
+  width: 100%;
 }
 
-.btn-find-me {
-  background-color: #007bff;
-  color: white;
-  padding: 10px 18px;
-  border: none;
-  border-radius: 8px;
+.map-container {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+.button-container {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 1000;
+}
+
+.button {
+  padding: 10px 20px;
   font-size: 16px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
   cursor: pointer;
-  margin-bottom: 15px;
-  transition: 0.3s ease;
 }
 
-.btn-find-me:hover {
-  background-color: #0056b3;
+.button-clear {
+  background-color: #FF0000;
+}
+
+.button-history {
+  background-color: #2196F3;
+}
+
+.coordinates-container {
+  padding: 20px;
+  height: 100vh;
+  width: 100%;
+  box-sizing: border-box;
+  overflow-y: auto;
+}
+
+.header {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.log-text {
+  font-size: 16px;
+  margin: 5px 0;
+}
+
+.manual-marker {
+  color: #4CAF50;
+  font-weight: bold;
+}
+
+.total-distance {
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 10px;
+  color: #000;
 }
 
 @media (max-width: 768px) {
-  .map-wrapper {
-    padding: 10px;
+  .button {
+    font-size: 14px;
+    padding: 8px 16px;
   }
 
-  .btn-find-me {
-    width: 100%;
+  .coordinates-container {
+    padding: 15px;
+  }
+
+  .header {
     font-size: 18px;
-    padding: 12px;
+  }
+
+  .log-text {
+    font-size: 14px;
+  }
+
+  .total-distance {
+    font-size: 16px;
   }
 }

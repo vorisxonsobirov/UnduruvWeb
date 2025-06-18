@@ -9,6 +9,7 @@ import Kontragentlar from './components/Kontragent/Kontragent';
 import KursValyut from './components/KursValyut/KursValyut';
 import Map from './components/Map/Map';
 import { useState } from 'react';
+import CoordinatesScreen from './components/Map/CoordinatesScreen';
 
 function App() {
   const [isBarOpen, setIsBarOpen] = useState(false);
@@ -26,11 +27,12 @@ function App() {
         <div className="page-content">
           <Routes>
             <Route path="/" element={<Profile />} />
-            <Route path="/KursValyut" element={<KursValyut />} />
-            <Route path="/Xabarlar" element={<Xabarlar />} />
-            <Route path="/Tulovlar" element={<Tulovlar />} />
-            <Route path="/Kontragentlar" element={<Kontragentlar />} />
-            {/* <Route path="/Map" element={<Map />} /> */}
+            {/* <Route path="/KursValyut" element={<KursValyut />} /> */}
+            {/* <Route path="/Xabarlar" element={<Xabarlar />} /> */}
+            {/* <Route path="/Tulovlar" element={<Tulovlar />} /> */}
+            {/* <Route path="/Kontragentlar" element={<Kontragentlar />} /> */}
+            <Route path="/Map" element={<Map />} />
+            <Route path="/Coordinates" element={<CoordinatesScreen/>} />
           </Routes>
         </div>
       </div>
